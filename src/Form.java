@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 public class Form extends JFrame {
@@ -41,6 +43,7 @@ public class Form extends JFrame {
     private JTable table;
     private JMenuBar menuBar;
     private JScrollPane scrollTable;
+    private JScrollPane scrollAddress;
 
     // Retrieve The Excel File
     private File excelFile = new File(Configuration.DATABASE_PATH);
@@ -270,16 +273,180 @@ public class Form extends JFrame {
 
     // A Simple Method to Generate the Form's Attributes
     private void generateAttributes() {
+        id = new JTextField();
+        id.setBounds(100, 30, 100, 30);
+        id.setBackground(new Color(255, 255, 255));
+        id.setForeground(new Color(0, 0, 0));
+        id.setEnabled(true);
+        id.setEditable(false);
+        id.setFont(new Font("sansserif", 0, 12));
+        id.setText("");
+        id.setVisible(true);
 
+        region = new JComboBox();
+        region.setBounds(100, 70, 150, 30);
+        region.setBackground(new Color(255, 255, 255));
+        region.setForeground(new Color(0, 0, 0));
+        region.setEnabled(true);
+        region.setEditable(false);
+        region.setFont(new Font("sansserif", 0, 12));
+        region.setModel(new DefaultComboBoxModel(new String[]{
+                "Home", "School", "Online"
+        }));
+        region.setVisible(true);
+
+        name = new JTextField();
+        name.setBounds(100, 110, 220, 30);
+        name.setBackground(new Color(255, 255, 255));
+        name.setForeground(new Color(0, 0, 0));
+        name.setEnabled(true);
+        name.setEditable(true);
+        name.setFont(new Font("sansserif", 0, 12));
+        name.setText("");
+        name.setVisible(true);
+
+        address = new JTextArea();
+        address.setBounds(100, 150, 220, 100);
+        address.setBackground(new Color(255, 255, 255));
+        address.setForeground(new Color(0, 0, 0));
+        address.setEnabled(true);
+        address.setEditable(true);
+        address.setFont(new Font("sansserif", 0, 12));
+        address.setText("");
+        address.setVisible(true);
+        address.setBorder(BorderFactory.createBevelBorder(1));
+        address.setWrapStyleWord(true);
+        address.setLineWrap(true);
+        address.setAutoscrolls(true);
+
+        scrollAddress = new JScrollPane();
+        scrollAddress.setVisible(true);
+        scrollAddress.setBounds(100,150,220,100);
+        scrollAddress.setViewportView(address);
+
+        housePhone = new JTextField();
+        housePhone.setBounds(620, 30, 220, 30);
+        housePhone.setBackground(new Color(255, 255, 255));
+        housePhone.setForeground(new Color(0, 0, 0));
+        housePhone.setEnabled(true);
+        housePhone.setEditable(true);
+        housePhone.setFont(new Font("sansserif", 0, 12));
+        housePhone.setText("");
+        housePhone.setVisible(true);
+
+        cellphone1 = new JTextField();
+        cellphone1.setBounds(620, 70, 220, 30);
+        cellphone1.setBackground(new Color(255, 255, 255));
+        cellphone1.setForeground(new Color(0, 0, 0));
+        cellphone1.setEnabled(true);
+        cellphone1.setEditable(true);
+        cellphone1.setFont(new Font("sansserif", 0, 12));
+        cellphone1.setText("");
+        cellphone1.setVisible(true);
+
+        cellphone2 = new JTextField();
+        cellphone2.setBounds(620, 110, 220, 30);
+        cellphone2.setBackground(new Color(255, 255, 255));
+        cellphone2.setForeground(new Color(0, 0, 0));
+        cellphone2.setEnabled(true);
+        cellphone2.setEditable(true);
+        cellphone2.setFont(new Font("sansserif", 0, 12));
+        cellphone2.setText("");
+        cellphone2.setVisible(true);
+
+        email = new JTextField();
+        email.setBounds(620, 150, 220, 30);
+        email.setBackground(new Color(255, 255, 255));
+        email.setForeground(new Color(0, 0, 0));
+        email.setEnabled(true);
+        email.setEditable(true);
+        email.setFont(new Font("sansserif", 0, 12));
+        email.setText("");
+        email.setVisible(true);
+
+        website = new JTextField();
+        website.setBounds(620, 190, 220, 30);
+        website.setBackground(new Color(255, 255, 255));
+        website.setForeground(new Color(0, 0, 0));
+        website.setEnabled(true);
+        website.setEditable(true);
+        website.setFont(new Font("sansserif", 0, 12));
+        website.setText("");
+        website.setVisible(true);
+
+        socialMedia = new JTextField();
+        socialMedia.setBounds(620, 230, 220, 30);
+        socialMedia.setBackground(new Color(255, 255, 255));
+        socialMedia.setForeground(new Color(0, 0, 0));
+        socialMedia.setEnabled(true);
+        socialMedia.setEditable(true);
+        socialMedia.setFont(new Font("sansserif", 0, 12));
+        socialMedia.setText("");
+        socialMedia.setVisible(true);
     }
 
     // A Simple Method to Generate the Table
     private void generateTable() {
+        table = new JTable();
+        table.setBounds(30, 370, 1300, 300);
+        setLayout(new FlowLayout());
+        table.setBackground(new Color(255, 255, 255));
+        table.setFont(new Font("sansserif", 0, 12));
+        table.setVisible(true);
+        table.setRowHeight(25);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tableMouseClicked(e);
+            }
+        });
 
+        scrollAddress = new JScrollPane();
+        scrollAddress.setVisible(true);
+        scrollAddress.setBounds(100,150,220,100);
+        scrollAddress.setViewportView(address);
     }
 
     // A Function to Generate Content Panes
     public JPanel generateContentPane() {
-        return new JPanel();
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(1360, 768));
+        contentPane.setBackground(new Color(38, 35, 38, 242));
+
+        // Adding buttons and labels into the proper panes
+        contentPane.add(buttonClear);
+        contentPane.add(buttonDelete);
+        contentPane.add(buttonNew);
+        contentPane.add(buttonRefresh);
+        contentPane.add(buttonSave);
+        contentPane.add(labelId);
+        contentPane.add(labelRegion);
+        contentPane.add(labelName);
+        contentPane.add(labelAddress);
+        contentPane.add(labelHousePhone);
+        contentPane.add(labelCellphone1);
+        contentPane.add(labelCellphone2);
+        contentPane.add(labelEmail);
+        contentPane.add(labelWebsite);
+        contentPane.add(labelSocialMedia);
+
+        contentPane.add(id);
+        contentPane.add(region);
+        contentPane.add(name);
+        contentPane.add(address);
+        contentPane.add(housePhone);
+        contentPane.add(cellphone1);
+        contentPane.add(cellphone2);
+        contentPane.add(email);
+        contentPane.add(website);
+        contentPane.add(socialMedia);
+        contentPane.add(scrollAddress);
+        contentPane.add(table);
+
+        return contentPane;
+    }
+
+    private void tableMouseClicked(MouseEvent event){
+
     }
 }
