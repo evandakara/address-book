@@ -1,3 +1,8 @@
+import com.sun.corba.se.spi.orbutil.threadpool.Work;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 
 public class Form extends JFrame {
 
@@ -77,7 +83,24 @@ public class Form extends JFrame {
 
     // Read / Get Data From Microsoft Excel and Set To Table
     private void loadData() {
+        if (excelFile.exists()) {
+            try {
+                Workbook workbook = Workbook.getWorkbook(excelFile);
+                Sheet sheet = workbook.getSheets()[0];
 
+                System.out.println("name " + sheet.getName());
+
+                // To set Header Of Table
+                String[] header = new String[]
+                        {"ID", "REGION", "NAME", "ADDRESS", "HOUSEPHONE"
+                                , "CELLPHONE1", "CELLPHONE2", "EMAIL", "WEBSITE", "SOCIAL MEDIA"};
+            } catch (IOException | BiffException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, String.valueOf("Error 404 : File not found" +
+                    " contact @whxsbang for technical support/to report this issue"));
+        }
     }
 
     // A Simple Method to Generate The Menu Bar
@@ -113,7 +136,7 @@ public class Form extends JFrame {
         buttonNew.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO : CREATE ACTION LISTENER FOR NEW BUTTON
+                buttonNewActionPerformed();
             }
         });
 
@@ -173,9 +196,14 @@ public class Form extends JFrame {
         buttonClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO : CREATE ACTION LISTENER FOR CLEAR BUTTON
+                clearForm();
             }
         });
+    }
+
+    // A Method to Clear Form
+    private void buttonNewActionPerformed() {
+        newData();
     }
 
     // A Simple Method to Generate the Button's Labels
@@ -321,7 +349,7 @@ public class Form extends JFrame {
 
         scrollAddress = new JScrollPane();
         scrollAddress.setVisible(true);
-        scrollAddress.setBounds(100,150,220,100);
+        scrollAddress.setBounds(100, 150, 220, 100);
         scrollAddress.setViewportView(address);
 
         housePhone = new JTextField();
@@ -403,7 +431,7 @@ public class Form extends JFrame {
 
         scrollAddress = new JScrollPane();
         scrollAddress.setVisible(true);
-        scrollAddress.setBounds(100,150,220,100);
+        scrollAddress.setBounds(100, 150, 220, 100);
         scrollAddress.setViewportView(address);
     }
 
@@ -446,7 +474,25 @@ public class Form extends JFrame {
         return contentPane;
     }
 
-    private void tableMouseClicked(MouseEvent event){
+    private void tableMouseClicked(MouseEvent event) {
 
+    }
+
+    private void newData() {
+        clearForm();
+        loadData();
+    }
+
+    private void clearForm() {
+        id.setText(null);
+        region.setSelectedIndex(0);
+        name.setText(null);
+        address.setText(null);
+        housePhone.setText(null);
+        cellphone1.setText(null);
+        cellphone2.setText(null);
+        email.setText(null);
+        website.setText(null);
+        socialMedia.setText(null);
     }
 }
